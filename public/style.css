@@ -346,3 +346,6 @@ select {
 #disc {
     text-align: center;
 }
+#bottomPadd {
+    padding: 4%;
+}
