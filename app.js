@@ -442,7 +442,6 @@ app.post('/storeFiles', async function(req , res){
             w = lib.routeToWaypoint("uploads/" + files[i], info[j]['name'], info[j]['len'], j);
           }
 
-          console.log(w);
 
           rows = db.prepare("select * from `FILE`").all();
           var id;
