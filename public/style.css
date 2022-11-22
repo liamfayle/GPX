@@ -1,0 +1,348 @@
+html {
+    width: 60%;
+    height: 100%;
+    min-height: 100%;
+    margin: 0 auto;
+    font-size: 16px;
+    background-color: #FFFFFF;
+}
+body {
+    height: 100%;
+    min-height: 100%;
+    line-height: 1.75;
+    background-color: #FFFFFF;
+}
+a:link:hover {
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    text-decoration: underline;
+    cursor: pointer;
+    cursor: hand;
+}
+input[type=submit], button {
+    cursor: pointer;
+    cursor: hand;
+}
+@media(max-width: 900px) {
+    html {
+        font-size: 14px !important;
+        width: 80% !important;
+    }
+}
+@media(max-width: 480px) {
+    html {
+        font-size: 12px !important;
+        width: 90% !important;
+    }
+}
+@media(max-width: 320px) {
+    html {
+        font-size: 12px !important;
+        width: 100% !important;
+    }
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+h3 {
+    text-align: center;
+    margin-bottom: 2%;
+}
+
+table {
+    height: 12.5rem;
+    display: block;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+#otherData {
+    margin-top: 0.5%;
+    height: 5rem;
+    display: block;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+
+#numWay, #numTrk, #version {
+    width: 10%;
+}
+
+#routeName {
+    width: 100%;
+    margin-bottom: 1%;
+}
+
+#routeName2 {
+    width: 87.5%;
+    margin-bottom: 1%;
+}
+
+#trackName {
+    width: 100%;
+    margin-bottom: 1%;
+}
+
+#wptName, #wptLat, #wptLon {
+    width: 33%;
+    margin-bottom: 1%;
+}
+
+#creategpx {
+    width: 100%;
+}
+
+#numRou {
+    width: 12%;
+}
+
+#gpxInput {
+    width: 42.9%;
+}
+
+#gpxInput2 {
+    display: none;
+}
+
+#creator {
+    width: 43%;
+}
+
+#nameTable {
+    width: 43%;
+}
+
+#fileName {
+    width: 15%;
+}
+
+.nameChange {
+    text-align: center;
+}
+
+.form-group {
+    text-align: center;
+    margin: 2% 0% 0% 0%;
+}
+
+#filenameR, #numR {
+    display: none;
+}
+
+#endLon, #endLat {
+    width: 43.5%;
+}
+
+#startLon, #startLat {
+    width: 43.5%;
+}
+
+#tolerance {
+    margin-top: 0.45%;
+    margin-bottom: 2%;
+    width: 87.4%;
+}
+
+
+#pathbut {
+    margin-bottom: 0.25%;
+}
+
+
+#noFiles {
+    text-align: center;
+    margin: 2% 0% 2% 0%;
+    font-weight: bold;
+}
+
+#noFiles2 {
+    text-align: center;
+    margin: 2% 0% 2% 0%;
+    font-weight: bold;
+}
+
+#title {
+    text-align: center;
+    margin: 0.5% 0% 0% 0%;
+    font-weight: bold;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    background-color: darkgray;
+    border-bottom: black;
+    background-clip: padding-box;
+    width: 100%;
+}
+
+
+#uploadForm {
+    height: 2rem;
+    margin-bottom: 3%;
+}
+
+hr {
+    border: 0.1rem solid black;
+}
+
+select {
+    width: 15rem;
+}
+
+#numpoints, #loop, #length {
+    width: 15%
+}
+
+#component {
+    width: 25%;
+}
+
+#name {
+    width: 30%;
+}
+
+#dropdown {
+    margin-bottom: 0.5%;
+}
+
+#dummy {
+    display: none;
+}
+
+#h2, #a4 {
+    text-align: center;
+    font-weight: bold;
+}
+
+#loginDb {
+    width: 100%;
+}
+
+#loginDbBut {
+    width: 11.5%;
+    margin-right: 0;
+}
+
+#dbInput, #dbInput2, #dnInput3 {
+    width: 31%;
+}
+
+#storeFiles, #clearData, #dbStatus {
+    width: 32.9%;
+}
+
+#outout {
+    text-align: center;
+}
+
+#outout p {
+    display: inline;
+    text-align: center;
+    margin-right: 10%;
+}
+
+#qStuff {
+    display: inline;
+}
+
+#selectQForm {
+    float: left;
+    width: 40%;
+}
+
+#o1 {
+    position: relative;
+    float: right;
+}
+
+#qRes {
+    width: 100%;
+    margin-top: 4%;
+}
+
+#submitSortFile {
+    margin-right: 3%;
+    float: right;
+}
+
+#o3 #sortRby {
+    margin-left: 40%;
+ }
+
+#submitPointRoute {
+    float: right;
+    margin-right: 3%;
+}
+
+
+
+#route_name {
+    width: 50%;
+}
+
+#route_len {
+    width: 37%;
+}
+
+#route_id {
+    width: 22.5%;
+}
+
+#gpx_id {
+    width: 22.5%;
+}
+
+#qResP {
+    width: 100%;
+}
+
+#point_index, #point_id, #route_id {
+    width: 10%;
+}
+
+#latitude, #longitude {
+    width: 25%;
+}
+
+#submitPointFile {
+    float: right;
+    margin-right: 3%;
+}
+
+#point_name {
+    width: 25%;
+}
+
+#qResP2 {
+    width: 100%;
+}
+
+#point_index2, #point_id2, #route_id2 {
+    width: 10%;
+}
+
+#latitude2, #longitude2 {
+    width: 15%;
+}
+
+#point_name2, #route_name2, #route_len2 {
+    width: 20%;
+}
+
+#rightAlign {
+    float: right;
+    margin-right: 3%;
+}
+
+#disc {
+    text-align: center;
+}

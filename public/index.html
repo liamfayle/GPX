@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>GPS Data Viewer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A very interesting webapp">
+    <meta name="keywords" content="seo :(">
+    <meta name="author" content="me">
+    <!-- Load jquery, bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <!-- Custom CSS End -->
+</head>
+<body>
+
+    <!--First panel
+        ->Display file summaries and download options
+        ->Scrollable in all directrions
+    -->
+    <div id="logPanel">
+
+        <h3>File Log</h3>
+
+        <p id="noFiles">No Files</p>
+
+        <table id="logTable">
+            <thead>
+                <th id="fileName">Filename (click to download)</th>
+                <th id="version">Version</th>
+                <th id="creator">Creator</th>
+                <th id="numWay">Number of Waypoints</th>
+                <th id="numRou">Number of Routes</th>
+                <th id="numTrk">Number of Tracks</th>
+            </thead>
+        </table>
+
+        <form target="dummy" ref='uploadForm' id='uploadForm' action='/upload' method='post' encType="multipart/form-data" onsubmit='checkUpload()'>
+            <div class="form-group">
+                <input type="file" id ="uploadFile" name="uploadFile" class="btn btn-secondary">
+                <input id='uppybut' type='submit' value='Upload' class="btn btn-secondary">
+            </div>
+        </form>
+
+    </div>
+
+
+    <hr> <!--Line break-->
+
+    <!--Second panel
+        ->Display selected files components
+        ->Scrollable in all directrions
+    -->
+    <div id="viewPanel">
+
+        <h3>File View</h3>
+
+        <form id="dropdown">
+            <select id="select">
+                <option value="nofile">No Files</option>
+            </select>
+        </form>
+
+        <table id="viewTable">
+            <thead>
+                <th id="component">Component <br>(click for GPX data)</th>
+                <th id="nameTable">Name <br>(enter to change)</th>
+                <th id="numpoints">Number of Points</th>
+                <th id="length">Length</th>
+                <th id="loop">Loop</th>
+            </thead>
+        </table>
+
+        <iframe id='dummy' name='dummy'></iframe> <!--used for form redirects-->
+
+        <table id="otherData">
+
+
+        </table>
+
+    </div>
+
+    <hr>
+
+    <!--Third panel 
+    -->
+    <div id="creategpxDiv">
+
+        <h3>GPX Creator</h3>
+
+        <form method='post' enctype='multipart/form-data' action='/createGpx' target='dummy' id='creategpx' onsubmit="checkGpx()">
+            <input type='text' name='gpxName' id='gpxInput' placeholder='Filename'>
+            <input type='text' name='gpxVer' id='gpxInput2' placeholder='Version' value="1.1">
+            <input type='text' name='gpxCre' id='gpxInput' placeholder='Creator'>
+            <input id="gpxBut" type='submit' value='Create GPX' class="btn btn-secondary">
+        </form>
+
+    </div>
+
+
+    <hr>
+
+    <div id="addrouteDiv">
+
+        <h3>Add Route</h3>
+
+        <form id="addRouteMenu">
+            <select id="addRoute">
+                <option value="nofile">No Files</option>
+            </select>
+        </form>
+    
+        <form method='post' enctype='multipart/form-data' action='/addRoute' target='dummy' id='addRouteForm' onsubmit="return checkForm();">
+            <input type='text' name='filename' id='filenameR' value="***">
+            <input type='text' name='num' id='numR' value="***">
+            <input type='text' name='routeName' id='routeName2' placeholder='Route Name (optional)'>
+            <input id="routebut" type='submit' value='Add Route' class="btn btn-secondary">
+            <input type='text' name='wptName' id='wptName' placeholder='Waypoint Name (optional)' value="">
+            <input class='1' type='text' name='wptLat' id='wptLat' placeholder='Latitude [-90, 90]' onkeypress="onKey(0, this.className)">
+            <input class='1' type='text' name='wptLon' id='wptLon' placeholder='Longitude [-180, 180]' onkeypress="onKey(1, this.className)">
+        </form>
+
+    </div>
+
+    <hr>
+
+    <div id="pathb">
+        <h3>Find Path Between</h3>
+
+        <form method='get' target='dummy' id='getPathsForm'>
+            <input type='text' name='startLat' id='startLat' placeholder='Start Point Latitude'>
+            <input type='text' name='startLon' id='startLon' placeholder='Start Point Longitude'>
+            <input id="pathbut" type='submit' value='Find Paths' class="btn btn-secondary">
+            <input type='text' name='endLat' id='endLat' placeholder='End Point Latitude'>
+            <input type='text' name='endLon' id='endLon' placeholder='End Point Longitude'>
+            <input type='text' name='tolerance' id='tolerance' placeholder='Accurancy Tolerance'>
+        </form>
+
+        <table id="pathTable">
+            <thead>
+                <th id="component">Component</th>
+                <th id="name">Name</th>
+                <th id="numpoints">Number of Points</th>
+                <th id="length">Length</th>
+                <th id="loop">Loop</th>
+            </thead>
+        </table>
+
+    </div>
+
+
+    <hr>
+
+    <!--DATABASE-->
+
+    <div id="a4"><h2>Database</h2></div>
+
+    <div id="loginDbDiv">
+
+        <form method='get' enctype='multipart/form-data' action='/loginDb' target='dummy' id='loginDb'>
+            <input type='text' name='username' id='dbInput' placeholder='Username'>
+            <input type='text' name='password' id='dbInput2' placeholder='Password'>
+            <input type='text' name='dbName' id='dbInput3' placeholder='Database Name'>
+            <input id="loginDbBut" type='submit' value='Login' class="btn btn-secondary">
+        </form>
+    </div>
+
+    <div id="logoutDiv">
+        <h3>Logout</h3>
+
+        <div id="outout">
+            <p id='loggedName'>Logged in as: </p>
+            <input id="logoutDb" type='submit' value='Logout' class="btn btn-secondary">
+        </div>
+            
+    </div>
+
+    <div id="dbFuncs">
+        <hr>
+
+        <h3>Database Functions</h3>
+
+        <input id="storeFiles" type='submit' value='Store All Files' class="btn btn-secondary">
+        <input id="clearData" type='submit' value='Clear All Data' class="btn btn-secondary">
+        <input id="dbStatus" type='submit' value='Display Status' class="btn btn-secondary">
+
+        <!--QUERY STUFF-->
+        <hr>
+
+        <div id="qStuff">
+
+            <h3>Execute Query</h3>
+
+            <form id="selectQForm">
+                <select id="selectQ">
+                    <option value="displayAll1" selected="selected" selected>(1) Display All Routes</option>
+                    <option value="displaySome2">(2) Display Routes From File</option>
+                    <option value="displayPoints3">(3) Display All Points From Route</option>
+                    <option value="displayPointsFile4">(4) Display All Points From File</option>
+                    <option value="displayShort5">(5) Display Shortest/Longest Routes From File</option>
+                </select>
+            </form>
+
+            <form id="o1"> <!--All routes-->
+                <select id="sortRby">
+                    <option value="name" select>Sort by Name</option>
+                    <option value="len" select>Sort by Length</option>
+                </select>
+                <input id="submitSort" type='submit' value='Submit Query' class="btn btn-secondary">
+            </form>
+
+
+            <form id="o2"> <!--routes from file-->
+                <select id="selFile">
+                    <option>file</option>
+                </select>
+                <select id="sortRby2">
+                    <option value="name" select>Sort by Name</option>
+                    <option value="len" select>Sort by Length</option>
+                </select>
+                <input id="submitSortFile" type='submit' value='Submit Query' class="btn btn-secondary">
+            </form>
+
+
+            <form id="o3"> <!--points from specific route-->
+                <select id="selFile2">
+                    <option>file</option>
+                </select>
+                <select id="selRoute">
+                    <option>route</option>
+                </select>
+                <select id="sortRby" hidden>
+                    <option value="name" select>Sort by Name</option>
+                    <option value="len" select>Sort by Length</option>
+                </select>
+                <input id="submitPointRoute" type='submit' value='Submit Query' class="btn btn-secondary">
+            </form>
+
+
+            <form id="o4"> <!--points from file-->
+                <select id="selFile3">
+                    <option>file</option>
+                </select>
+                <select id="sortRby3">
+                    <option value="name" select>Sort by Route Name</option>
+                    <option value="len" select>Sort by Route Length</option>
+                </select>
+                <input id="submitPointFile" type='submit' value='Submit Query' class="btn btn-secondary">
+            </form>
+
+
+            <form id="o5"> <!--N shortest/longest-->
+                <select id="selFile4">
+                    <option>file</option>
+                </select>
+                <select id="sortRby4">
+                    <option value="short" select>Display N Shortest</option>
+                    <option value="long" select>Display N Longest</option>
+                </select>
+                <div id="rightAlign">
+                    <select id="sortRby5">
+                        <option value="name" select>Sort by Route Name</option>
+                        <option value="len" select>Sort by Route Length</option>
+                    </select>
+                    <input type='text' name='num' id='numIn' placeholder='N'>
+                    <input id="submitN" type='submit' value='Submit Query' class="btn btn-secondary">
+                </div>
+            </form>
+
+        </div>
+
+        <table id="qRes">
+            <thead>
+                <th id="route_name">Route Name</th>
+                <th id="route_len">Route Length</th>
+                <th id="route_id">Route ID</th>
+                <th id="gpx_id">GPX ID</th>
+            </thead>
+        </table>
+
+        <table id="qResP">
+            <thead>
+                <th id="point_index">Point Index</th>
+                <th id="point_name">Point Name</th>
+                <th id="latitude">Latitude</th>
+                <th id="longitude">Longitude</th>
+                <th id="point_id">Point ID</th>
+                <th id="route_id">Route ID</th>
+            </thead>
+        </table>
+
+        <table id="qResP2">
+            <thead>
+                <th id="point_index2">Point Index</th>
+                <th id="point_name2">Point Name</th>
+                <th id="latitude2">Latitude</th>
+                <th id="longitude2">Longitude</th>
+                <th id="point_id2">Point ID</th>
+                <th id="route_id2">Route ID</th>
+                <th id="route_name2">Route Name</th>
+                <th id="route_length2">Route Length</th>
+            </thead>
+        </table>
+
+    </div>
+
+    <script src="/index.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
