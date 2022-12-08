@@ -1,5 +1,7 @@
 # GPX File Manager
 
+CRUD webapp for [.gpx](https://en.wikipedia.org/wiki/GPS_Exchange_Format) files.
+
 ## Components
 - C API for parsing [.gpx](https://en.wikipedia.org/wiki/GPS_Exchange_Format) files and converting relevant data to JSON formatted strings. 
 - Express.js back-end.
