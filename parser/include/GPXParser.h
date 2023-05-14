@@ -12,7 +12,6 @@
 #include "LinkedListAPI.h"
 
 // M_PI is not declared in the C standard, so we declare it manually
-// We will need it for A2
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
